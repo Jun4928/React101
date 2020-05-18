@@ -1,4 +1,8 @@
 # React101
+Repository for recording what I have lerned about React
 
 ## Files
-- React Basics : 리액트의 기본 개념 학습한 코드 저장소
+- ReactBasics : Basic Concepts of React 
+
+## References
+[Udemy Course](https://www.udemy.com/course/react-redux/)
