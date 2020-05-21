@@ -1,7 +1,7 @@
 # React101
 Repository for recording what I have lerned about React
 
-## Files
+## Folders 
 - ReactBasics : Basic Concepts of React 
 
 ## References
