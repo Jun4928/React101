@@ -1,47 +1,33 @@
-import './App.css';
 import React from 'react';
+import unsplash from '../api/unsplash';
 import SearchBar from './SearchBar';
-import SearchedList from './SearchedList';
+import History from './History';
+import ImageList from './ImageList';
 
 class App extends React.Component {
-  state = { textInput: '', history: [] }
+  state = {history: [], images: []}
 
-  onUserSubmit(input) { // when the from in SearchBar is submitted
-    const history = this.state.history;
-    this.setState( { textInput: input, history: [...history, input] } );
+  onSearchBarSubmit = async (input) => {
+    this.setState({history: [...this.state.history, input] });
+    const axiosOption = { params: {query: input} };
+
+    const response = await unsplash.get('/search/photos', axiosOption);
+    const results = response.data.results;
+    const images = [];
+    results.forEach((result) => images.push(result.urls.small));
+    this.setState({images: images});
   }
 
-  makeHistroy() { // everytime rerenderd when this.setState is called
-    console.log('rerendering');
-    const searched = [];
-    this.state.history.forEach( (each, index) => {
-      searched.push(<SearchedList word={each} key={index} />); 
-    });
-
-    return searched;
-  }
-  
   render() {
     return (
-      <div className="app">
-        <div className="header">
-          <h1>Image Search Web</h1>
-        </div>
-        <div className="ui container">
-          <SearchBar onEnter={this.onUserSubmit.bind(this)}/>
-          <div className="ui segment">
-            <label>History</label>
-            <div className="ui bulleted list">
-              {this.makeHistroy()}
-            </div>
-          </div>
-        </div>
-        <div className="footer">
-          <h3>@image copy reserved</h3>
-        </div>
-      </div>
-    );
+      <div className="ui container">
+        <SearchBar onSearchBarSubmit={this.onSearchBarSubmit}/>
+        <History history={this.state.history} />
+        <ImageList images={this.state.images}/>
+      </div> 
+   );
   }
 }
+
 
 export default App;

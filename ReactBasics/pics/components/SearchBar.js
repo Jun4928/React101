@@ -1,30 +1,31 @@
 import React from 'react';
 
 class SearchBar extends React.Component {
-  state = { textInput: ''}
+  state = {input: ''}
 
-  onFormSubmit(event) {
-    event.preventDefault(); // 새로운 웹페이지 요청을 막고
-    this.props.onEnter(this.state.textInput); // 부모 컴포넌트인 App 에게 값을 전달한다.
-    // this.props.onEnter 함수는 App 에서 <SearchBar onEnter={this.onUserEnter}/> 함수를 전달받은 것
+  onFormSubmit = (e) => {
+    e.preventDefault();
+    this.props.onSearchBarSubmit(this.state.input);
   }
-
+  
   render() {
     return (
-      <div className="ui segment">
-        <form className="ui form" onSubmit={ (e) => this.onFormSubmit(e) }>
+      <div className="ui segment" style={{margin: '10px'}}>
+        <form className="ui form" onSubmit={this.onFormSubmit}> 
           <div className="field">
-            <label>Search your Image</label> 
-            <input 
-              type="text"
-              value={this.state.textInput}
-              onChange={ (e) => this.setState({ textInput: e.target.value }) }
-            />
+            <label>Search your fascinating images..</label>
+            <div className="ui input">
+              <input 
+                type="text"
+                value={this.state.input}
+                onChange={ (e) => this.setState({ input: e.target.value }) }
+              />
+            </div>
           </div>
         </form>
       </div>
     );
   }
-} 
+}
 
 export default SearchBar;
