@@ -7,23 +7,23 @@ import ImageList from './ImageList';
 class App extends React.Component {
   state = {history: [], images: []};
 
-  onImageSearch = async (input) => {
+  onSearchBarSubmit = async (input) => {
     this.setState({history: [...this.state.history, input]});
 
-    const unsplashOption = { params: { query: input } };
-    const response = await unsplash.get('/search/photos', unsplashOption);
-    const results = response.data.results;
+    const getOption = {params: {query: input, per_page: '20'}};
+    const response = await unsplash.get('search/photos', getOption);
+    const images = response.data.results;
 
-    this.setState({images: results});
+    this.setState({images: images});
   }
 
   render() {
-    return (
+    return(
       <div className="ui container">
-        <SearchBar onImageSearch={this.onImageSearch}/>
+        <SearchBar onSearchBarSubmit={this.onSearchBarSubmit}/>
         <History history={this.state.history}/>
         Found {this.state.images.length} items
-        <ImageList images={this.state.images} />
+        <ImageList images={this.state.images}/>
       </div>
     );
   }
