@@ -1,0 +1,13 @@
+.image-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr; 
+  /* columns 균일하게 3등분 */
+
+  column-gap: 10px;
+  /* grid column 간의 여백 */
+}
+
+.image-list img {
+  width: 100%; 
+  /* image 크기를 그리드의 width 에 맞게 꽉 채운다. */
+}

@@ -5,29 +5,28 @@ import History from './History';
 import ImageList from './ImageList';
 
 class App extends React.Component {
-  state = {history: [], images: []}
+  state = {history: [], images: []};
 
-  onSearchBarSubmit = async (input) => {
-    this.setState({history: [...this.state.history, input] });
-    const axiosOption = { params: {query: input} };
+  onImageSearch = async (input) => {
+    this.setState({history: [...this.state.history, input]});
 
-    const response = await unsplash.get('/search/photos', axiosOption);
+    const unsplashOption = { params: { query: input } };
+    const response = await unsplash.get('/search/photos', unsplashOption);
     const results = response.data.results;
-    const images = [];
-    results.forEach((result) => images.push(result.urls.small));
-    this.setState({images: images});
+
+    this.setState({images: results});
   }
 
   render() {
     return (
       <div className="ui container">
-        <SearchBar onSearchBarSubmit={this.onSearchBarSubmit}/>
-        <History history={this.state.history} />
-        <ImageList images={this.state.images}/>
-      </div> 
-   );
+        <SearchBar onImageSearch={this.onImageSearch}/>
+        <History history={this.state.history}/>
+        Found {this.state.images.length} items
+        <ImageList images={this.state.images} />
+      </div>
+    );
   }
 }
-
 
 export default App;

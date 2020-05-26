@@ -1,22 +1,21 @@
+import './ImageList.css';
 import React from 'react';
+import ImageCard from './ImageCard';
 
 const ImageList = (props) => {
   const {images} = props;
 
-  const imageDisplay = () => {
-    const elements = [];
-    images.forEach((image, i) => {
-      elements.push(<img alt={`searched ${i}`} key={i} src={image}></img>);
+  const showImages = () => {
+    return images.map( (image) => {
+      return ( <ImageCard key={image.id} image={image} /> );
     });
+  }
 
-    return elements;
-  };
-
-  return (
-    <div>
-      {imageDisplay()}
+  return(
+    <div className="image-list">
+      {showImages()}
     </div>
   );
-};
+}
 
 export default ImageList;
