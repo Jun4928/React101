@@ -1,0 +1,17 @@
+.video-item {
+  margin-right: 10px;
+  margin-bottom: 10px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.video-item .header {
+  font-size: 20px;
+  font-weight: bold;
+
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
