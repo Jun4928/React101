@@ -4,9 +4,13 @@ import React from 'react';
 
 class VideoList extends React.Component {
 
+  onVideoClick = (video) => {
+    this.props.onVideoClick(video);
+  }
+
   showVideoList = () => {
     return this.props.videos.map((video) => {
-      return ( <VideoItem key={video.etag} video={video}/> );
+      return ( <VideoItem onVideoClick={this.onVideoClick} key={video.etag} video={video}/> );
     });
   }
 

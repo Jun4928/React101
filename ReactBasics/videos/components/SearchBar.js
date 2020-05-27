@@ -10,7 +10,7 @@ class SearchBar extends React.Component {
 
   render() {
     return (
-      <div className="ui segment">
+      <div className="ui segment" style={{marginTop: '10px'}}>
         <label style={{fontWeight: 'bold'}}>Search your vidoes</label>
         <form onSubmit={this.onFormSubmit} style={{marginTop: '10px'}}className="ui form">
           <input 

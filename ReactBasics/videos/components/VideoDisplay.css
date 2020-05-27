@@ -1,0 +1,23 @@
+.video-display {
+  display: flex;
+  flex-direction: column;
+
+}
+
+.video-display iframe {
+  height: 60vh;
+}
+
+.video-display .title {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 20px;
+  margin-left: 0;
+  margin-bottom: 0;
+}
+
+.video-display .description {
+  font-size: 15px;
+  margin: 20px;
+  margin-left: 0;
+}

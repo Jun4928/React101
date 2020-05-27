@@ -3,10 +3,10 @@ import React from 'react';
 
 class VideoItem extends React.Component {
 
-  state = {videoId: this.props.video.id.videoId}; 
+  state = {video: this.props.video}; 
 
-  componentDidMount() {
-    console.log(this.state.videoId);
+  onClick = () => {
+    this.props.onVideoClick(this.state.video);
   }
 
   render() {
@@ -17,7 +17,7 @@ class VideoItem extends React.Component {
 
     return(
       // <div onClick={} className="ui link card">
-      <div className="ui link card">
+      <div onClick={this.onClick} className="ui link card">
         <div className="image">
           <img alt={description} src={`${thumbnailsUrl}`} />
         </div>
