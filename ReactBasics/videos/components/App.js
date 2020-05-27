@@ -5,7 +5,6 @@ import SearchBar from './SearchBar';
 import VideoList from './VideoList';
 import VideoDisplay from './VideoDisplay';
 
-const KEY = "AIzaSyCqDnvCYEK2gfITPhMSqTpFs58IDGBxG1o";
 
 class App extends React.Component {
   state = {videos: [], video: null}; 
