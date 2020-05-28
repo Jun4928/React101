@@ -1,36 +1,31 @@
-import React from 'react';
+import './ImageItem.css';
+import React, {useState, useEffect} from 'react';
+import faker from 'faker';
 
-class ImageItem extends React.Component {
+const ImageItem = (props) => {
+  const {image} = props;
+  const [data, setData] = useState({}); // state
 
-  constructor(props) {
-    super(props);
-
-    this.state = {spans: 0};
-
-    this.imageElementRef = React.createRef(); // to access to the DOM Element
+  useEffect( () => { // componenDidMount()
+    const data = {
+      'author': faker.name.lastName(),
+      'date': faker.date.recent().toDateString(),
+      'text': faker.lorem.words()
+    };
+    setData(data);
+  }, []);
+  
+  const onImageClick = () => {
+    props.onImageClick(image, data);
   }
 
-  componentDidMount() {
-    this.imageElementRef.current.addEventListener('load', this.onImageLoad);
-  }
+  return (
+    <div onClick={onImageClick} className="image-item">
+      <img alt={image.alt_description} src={image.urls.regular}/>
+      <div className="header">{data.author}</div>
+      <div>{data.date}</div>
+    </div>
+  );
+};
 
-  onImageLoad = () => {
-    const height = this.imageElementRef.current.clientHeight;
-    const spans = Math.ceil(height / 10);
-
-    this.setState({spans: spans}); // set spans at grid-row-end property
-  }
-
-  render() {
-    const {alt_description, urls} = this.props.image;
-
-    return (
-     <div style={{gridRowEnd: `span ${this.state.spans}`}}>
-       <img ref={this.imageElementRef} alt={alt_description} src={urls.small} />
-     </div> 
-    );
-  }
-
-}
-
-export default ImageItem;
+export default ImageItem; 

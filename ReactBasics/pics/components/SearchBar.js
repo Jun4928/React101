@@ -5,23 +5,24 @@ class SearchBar extends React.Component {
 
   onFormSubmit = (event) => {
     event.preventDefault();
-    this.props.onSearchBarSubmit(this.state.input); // send state in this component to the parent component by using callback function
+    this.props.onSearch(this.state.input);  
   }
 
   render() {
-    return(
-      <div className="ui segment">
-        <label style={{fontWeight: "bold"}}>Search your image</label>
-        <form onSubmit={this.onFormSubmit} style={{marginTop: "10px"}} className="ui form">
+    return (
+      <div style={{marginTop: '10px'}} className="ui segment">
+        <form onSubmit={this.onFormSubmit} className="ui form">
+          <div style={{fontWeight: 'bold', marginBottom: '5px'}}>Image Search</div>
           <input 
             type="text"
             value={this.state.input}
-            onChange={ (event) => this.setState({input: event.target.value}) }
+            onChange={(e) => this.setState({input: e.target.value})}
           />
         </form>
       </div>
     );
   }
+
 }
 
 export default SearchBar;

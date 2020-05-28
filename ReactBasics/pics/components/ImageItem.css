@@ -1,0 +1,19 @@
+.image-item {
+  cursor: pointer;
+  border: 0.5px solid lightgrey;
+
+  margin-bottom: 15px;
+}
+
+.image-item:hover {
+  transform: translateY(-5px);
+  background-color: lightpink;
+}
+
+.image-item img{
+  width: 100%;
+}
+
+.image-item p {
+  margin: 5px;
+}

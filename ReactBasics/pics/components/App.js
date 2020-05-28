@@ -1,29 +1,39 @@
+import './App.css';
 import React from 'react';
-import unsplash from '../api/unsplash';
+import unsplash from '../apis/unsplash';
 import SearchBar from './SearchBar';
-import History from './History';
 import ImageList from './ImageList';
+import ImageViewer from './ImageViewer';
 
 class App extends React.Component {
-  state = {history: [], images: []};
+  state = {images: [], image: null, data: null};
 
-  onSearchBarSubmit = async (input) => {
-    this.setState({history: [...this.state.history, input]});
+  onSearch = async (input) => {
+    const response = await unsplash.get('/search/photos', 
+    {
+      params: {
+        query: input,
+        page: 1,
+        per_page: 5 
+    }});
 
-    const getOption = {params: {query: input, per_page: '20'}};
-    const response = await unsplash.get('search/photos', getOption);
     const images = response.data.results;
+    console.log(images);
+    this.setState({images: images, image: images[0], data: null});
+  }
 
-    this.setState({images: images});
+  onImageClick = (image, data) => {
+    this.setState({image: image, data: data});
   }
 
   render() {
     return(
-      <div className="ui container">
-        <SearchBar onSearchBarSubmit={this.onSearchBarSubmit}/>
-        <History history={this.state.history}/>
-        Found {this.state.images.length} items
-        <ImageList images={this.state.images}/>
+      <div className="ui container"> 
+        <SearchBar onSearch={this.onSearch}/>
+        <div className="content-container">
+          <ImageViewer image={this.state.image} data={this.state.data}/>
+          <ImageList onImageClick={this.onImageClick} images={this.state.images}/>
+        </div>
       </div>
     );
   }
