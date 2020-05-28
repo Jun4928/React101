@@ -1,29 +1,17 @@
 import './ImageItem.css';
-import React, {useState, useEffect} from 'react';
-import faker from 'faker';
+import React from 'react';
 
 const ImageItem = (props) => {
   const {image} = props;
-  const [data, setData] = useState({}); // state
-
-  useEffect( () => { // componenDidMount()
-    const data = {
-      'author': faker.name.lastName(),
-      'date': faker.date.recent().toDateString(),
-      'text': faker.lorem.words()
-    };
-    setData(data);
-  }, []);
-  
+ 
   const onImageClick = () => {
-    props.onImageClick(image, data);
+    props.onImageClick(image);
   }
 
   return (
     <div onClick={onImageClick} className="image-item">
-      <img alt={image.alt_description} src={image.urls.regular}/>
-      <div className="header">{data.author}</div>
-      <div>{data.date}</div>
+      <img alt={image.alt} src={image.url}/>
+      <div className="header" style={{margin: '5px', fontWeight: 'bold'}}>{image.author}</div>
     </div>
   );
 };

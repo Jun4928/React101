@@ -4,8 +4,8 @@ import ImageItem from './ImageItem';
 
 const ImageList = (props) => {
 
-  const onImageClick = (image, data) => {
-    props.onImageClick(image, data);
+  const onImageClick = (image) => {
+    props.onImageClick(image);
   }
 
   const {images} = props;
