@@ -1,0 +1,29 @@
+.video-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.video-item {
+  margin-bottom: 15px;
+  height: 150px;
+  border: 0.5px solid lightgrey;
+  display: flex;
+}
+
+.video-item:hover {
+  cursor: pointer;
+  transform: translateY(-5px);
+  background-color: lightsalmon;
+}
+
+.video-item .image {
+  width: 50%
+}
+
+.video-item .title {
+  display: flex;
+  margin: 5px;
+  font-weight: bold;
+  justify-content: center;
+  align-items: center;
+}

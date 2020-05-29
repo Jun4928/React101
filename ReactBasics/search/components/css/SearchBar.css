@@ -1,0 +1,17 @@
+.ui.segment.search-bar {
+  margin-top: 20px;
+}
+
+.radio label {
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+.radio .btn {
+  margin: 5px;
+}
+
+.search-label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}

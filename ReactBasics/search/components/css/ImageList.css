@@ -1,0 +1,29 @@
+.image-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.image-item {
+  margin-bottom: 15px;
+  height: 150px;
+  border: 0.5px solid lightgrey;
+  display: flex;
+}
+
+.image-item:hover {
+  cursor: pointer;
+  transform: translateY(-5px);
+  background-color: lightseagreen;
+}
+
+.image-item .image {
+  width: 50%
+}
+
+.image-item .description {
+  display: flex;
+  margin: 5px;
+  font-weight: bold;
+  justify-content: center;
+  align-items: center;
+}
