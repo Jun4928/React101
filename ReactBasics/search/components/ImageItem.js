@@ -2,9 +2,13 @@ import React from 'react';
 
 const ImageItem = (props) => {
   const {url, alt, description} = props.image;
-  console.log(url, alt, description);
+
+  const onImageClick = () => {
+    props.onImageClick(props.image);
+  };
+
   return (
-    <div className="image-item">
+    <div onClick={onImageClick} className="image-item">
       <img className="image" src={url} alt={alt}/>
       <span className="description">{description}</span>
     </div>

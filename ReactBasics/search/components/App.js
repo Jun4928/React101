@@ -5,11 +5,12 @@ import React from 'react';
 import SearchBar from './SearchBar';
 import VideoList from './VideoList';
 import ImageList from './ImageList';
+import ContentViewer from './ContentViewer';
 
 const YOUTUBE_KEY = "YOUTUBE_KEY";
 
 class App extends React.Component {
-  state = {videos: [], images: [], selected: "all"}
+  state = {videos: [], images: [], selected: "all", currentContent: null}
 
   videoSearch = async (input) => {
     const videoResponse = await youtube.get('/search' , 
@@ -17,7 +18,7 @@ class App extends React.Component {
       params: {
         q: input,
         part: 'snippet',
-        maxResults: 5,
+        maxResults: 10,
         key: YOUTUBE_KEY,
         type: "video"
       }
@@ -30,7 +31,8 @@ class App extends React.Component {
         id: video.id.videoId,
         title: video.snippet.title,
         description: video.snippet.description,
-        thumbnail: video.snippet.thumbnails.medium.url
+        thumbnail: video.snippet.thumbnails.medium.url,
+        type: "video"
       }
     });
   }
@@ -40,7 +42,7 @@ class App extends React.Component {
     {
       params: {
         query: input,
-        per_page: 5
+        per_page: 10
       }
     });
 
@@ -49,8 +51,9 @@ class App extends React.Component {
       return {
         id: image.id,
         alt: image.alt_description,
-        url: image.urls.small,
-        description: image.description
+        url: image.urls.regular,
+        description: image.description,
+        type: "image"
       }
     });
   }
@@ -61,12 +64,9 @@ class App extends React.Component {
 
     if(selected === "all") {
       const images = await this.imageSearch(input);
-      console.log(images);
-
       const videos = await this.videoSearch(input);
-      console.log(videos);
 
-      this.setState({videos: videos, images: images, selected: selected});
+      this.setState({videos: videos, images: images, selected: selected, currentContent: videos[0]});
     }
 
     // if(selected === "video") {
@@ -81,13 +81,27 @@ class App extends React.Component {
     // }
   }
 
+  onImageClick = (image) => {
+    this.setState({currentContent: image});
+    const viewer = document.querySelector('.viewer-top');
+    viewer.scrollIntoView(true);
+  }
+
+  onVideoClick = (video) => {
+    this.setState({currentContent: video});
+    const viewer = document.querySelector('.viewer-top');
+    viewer.scrollIntoView(true);
+  }
+
   render() {
     return(
       <div className="ui container">
         <SearchBar onSearchSubmit={this.onSearchSubmit} />
+        <div className="viewer-top"></div>
+        <ContentViewer content={this.state.currentContent}/>
         <div className="content-container">
-          <VideoList videos={this.state.videos}/>
-          <ImageList images={this.state.images}/>
+          <VideoList videos={this.state.videos} onVideoClick={this.onVideoClick}/>
+          <ImageList images={this.state.images} onImageClick={this.onImageClick}/>
         </div>
       </div>
     );

@@ -4,10 +4,15 @@ import VideoItem from './VideoItem.js';
 
 const VideoList = (props) => {
   const {videos} = props;
-  const showVideos = videos.map((video) => {
-    return <VideoItem key={video.id} video={video}/> 
-  });
 
+  const onVideoClick = (video) => {
+    props.onVideoClick(video);
+  };
+
+  const showVideos = videos.map((video) => {
+    return <VideoItem key={video.id} video={video} onVideoClick={onVideoClick}/> 
+  });
+  
   return(
     <div className="video-list">
       {showVideos}
