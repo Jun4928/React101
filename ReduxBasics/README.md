@@ -8,3 +8,5 @@
 	- /src/components/: React Components using React-Redux connect tag in order to subsribe to Redux store
 
 - counter: counter React App with React-Redux
+
+- blog: understanding how to handle asynchronous API call by using middleware with Redux. Redux-Thunk. 
