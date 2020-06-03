@@ -1,13 +1,15 @@
 import React from 'react';
 import SearchBar from './SearchBar';
+import ImageList from './ImageList';
 
 class App extends React.Component {
   render() {
     return(
       <div style={{margin: '10px'}} className="ui container">
         <SearchBar />
-        ImageList -> ImageItem <br/>
-        ImageDetail
+        <div>
+          <ImageList />
+        </div>
       </div>
     );
   }
