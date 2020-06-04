@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchImages } from '../actions/'; 
+import { fetchImagesAndUsers } from '../actions/'; 
+import { withRouter } from 'react-router-dom';
 
 class SearchBar extends React.Component {
 
@@ -8,7 +9,8 @@ class SearchBar extends React.Component {
   
   onSearch = (event) => {
     event.preventDefault();
-    this.props.fetchImages(this.state.keyword);
+    this.props.fetchImagesAndUsers(this.state.keyword);
+    this.props.history.push('/');
   }
 
   render() {
@@ -30,4 +32,4 @@ class SearchBar extends React.Component {
 
 }
 
-export default connect(null, { fetchImages })(SearchBar);
+export default connect(null, { fetchImagesAndUsers })(withRouter(SearchBar));

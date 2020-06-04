@@ -1,8 +1,15 @@
 import unsplash from '../apis/unsplash'; 
-import faker from 'faker';
+
+export const fetchImagesAndUsers = (keyword) => async (dispatch, getState) => {
+  await dispatch(fetchImages(keyword));
+
+  getState().images.map((image) => image.userName)
+      .filter((username, index, arr) => arr.indexOf(username) === index)
+      .forEach((username) => dispatch(fetchUsers(username)));
+};
+
 
 export const fetchImages = (keyword) => async (dispatch) => {
-  console.log(keyword);
   const response = await unsplash.get('/search/photos', {
     params: {
       query: keyword,
@@ -19,12 +26,12 @@ export const fetchImages = (keyword) => async (dispatch) => {
     return {
       id: result.id,
       alt: result.alt_description,
-      description: faker.lorem.sentences(),
+      description: result.description,
       color: result.color,
       likes: result.likes,
-      imageUrl: result.urls.small,
+      imageUrl: result.urls.regular,
       userInsta: result.user.instagram_username,
-      userName: result.user.first_name,
+      userName: result.user.username,
       userImageUrl: result.user.profile_image.medium,
       date: dateHandling(result.created_at)
     }
@@ -33,9 +40,26 @@ export const fetchImages = (keyword) => async (dispatch) => {
   dispatch({ type: 'FETCH_IMAGES', payload: images });
 };
 
+
+export const fetchUsers = (username) => async (disaptch) => {
+  const response = await unsplash.get(`/users/${username}`)
+  const user = response.data;  
+  console.log(user);
+  disaptch({ type: 'FETCH_USERS', payload: user });
+}
+
+
 export const likeImage = (image) => {
   return {
     type: 'LIKE_IMAGE',
     payload: {...image, likes: image.likes + 1}
   };
 } 
+
+
+export const userSelect = (username) => {
+  return {
+    type: 'USER_SELECT',
+    payload: username
+  };
+}
