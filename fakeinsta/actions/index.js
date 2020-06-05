@@ -1,13 +1,13 @@
 import unsplash from '../apis/unsplash'; 
+import imageHandling from './imageHandling';
 
 export const fetchImagesAndUsers = (keyword) => async (dispatch, getState) => {
   await dispatch(fetchImages(keyword));
 
   getState().images.map((image) => image.userName)
-      .filter((username, index, arr) => arr.indexOf(username) === index)
+      .filter((username, index, arr) => arr.indexOf(username) === index) // delete duplication
       .forEach((username) => dispatch(fetchUsers(username)));
 };
-
 
 export const fetchImages = (keyword) => async (dispatch) => {
   const response = await unsplash.get('/search/photos', {
@@ -18,36 +18,40 @@ export const fetchImages = (keyword) => async (dispatch) => {
     }
   });
 
-  const dateHandling = (created) => {
-    return created.substring(0, 10).replace(/-/gi, ".");
-  };
- 
-  const images = response.data.results.map( (result) => {
-    return {
-      id: result.id,
-      alt: result.alt_description,
-      description: result.description,
-      color: result.color,
-      likes: result.likes,
-      imageUrl: result.urls.regular,
-      userInsta: result.user.instagram_username,
-      userName: result.user.username,
-      userImageUrl: result.user.profile_image.medium,
-      date: dateHandling(result.created_at)
-    }
-  });
-
+  const images = imageHandling(response.data.results);
   dispatch({ type: 'FETCH_IMAGES', payload: images });
 };
 
 
 export const fetchUsers = (username) => async (disaptch) => {
   const response = await unsplash.get(`/users/${username}`)
-  const user = response.data;  
-  console.log(user);
+  const { location, bio, total_photos, total_likes, profile_image } = response.data;  
+
+  const user = {
+    username,
+    location,
+    bio,
+    totalPhotos: total_photos,
+    totalLikes: total_likes,
+    profileImageURL: profile_image.large
+  };
+
   disaptch({ type: 'FETCH_USERS', payload: user });
 }
 
+export const fetchImagesByUsername = (username) => async (dispatch) => {
+  const response = await unsplash.get(`/users/${username}/photos`)
+  const imagesByUsername = imageHandling(response.data); 
+
+  dispatch({ type: 'FETCH_IMAGES_BY_USERNAME', payload: imagesByUsername});
+}
+
+export const makeImagesEmpty = () => {
+  return {
+    type: 'MAKE_IMAGES_EMPTY',
+    payload: []
+  };
+}
 
 export const likeImage = (image) => {
   return {
