@@ -7,14 +7,8 @@ export default (resource, setCallback, loaded, setLoaded) => {
   const getPosts = async () => {
     setLoading(true);
 
-    console.log('api calling');
-    const response = await jsonPlaceholder.get(`${resource}`, {
-      params: {
-         numbers: 10,
-        read: 20
-      }
-    });
-    setCallback(response.data); 
+    const response = await jsonPlaceholder.get(`${resource}`);
+    setCallback(response.data.reverse()); 
 
     setLoaded(true);
     setLoading(false);

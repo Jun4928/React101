@@ -7,6 +7,7 @@ const Users = (props) => {
   const renderUsers = users.map((user) => {
     return <UserCard key={user.id} user={user}/>
   });
+
   return(
     <div className="ui container">
       <div className="ui two stackable cards">

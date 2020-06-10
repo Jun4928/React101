@@ -10,7 +10,8 @@ const PostCard = (props) => {
   const [user, setUser] = useState(null);
 
   useEffect( () => {
-    const thisUser = users.find((user) => user.id === post.userId);
+
+    const thisUser = users.find((user) => user.id === parseInt(post.user_id));
     setUser(thisUser); 
     // eslint-disable-next-line
   }, [users]);

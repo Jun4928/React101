@@ -9,7 +9,7 @@ const User = (props) => {
         {user.name}
       </h2>
       <h3 className="ui right floated header">
-        {user.company.name}
+        {user.email}
       </h3>
       <p>
       </p>

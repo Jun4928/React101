@@ -17,7 +17,7 @@ const UserCard = (props) => {
         <div className="header">{user.name}</div>
       </div>
       <div className="extra content">
-        <div>{user.company.name}</div>
+        <div>{user.email}</div>
       </div>
     </Link >
   );

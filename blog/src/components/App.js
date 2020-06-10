@@ -8,6 +8,7 @@ import Home from './Home';
 import Users from './Users';
 import Post from './Post';
 import User from './User';
+import Newpost from './Newpost';
 
 const App = () => {
   const [posts, setPosts] = useState([]); 
@@ -16,9 +17,16 @@ const App = () => {
 
   const postDelete = async (postId) => {
     console.log('postDelete triggered');
-    // await jsonPlaceholder.delete(`/posts/${postId}`);
+    await jsonPlaceholder.delete(`/posts/${postId}`);
     console.log('Delete postId from the state');
     setPosts(posts.filter((post) => post.id !== postId));
+  };
+
+  const postNewPost = async (newPost) => {
+    console.log('new post trigerred');
+    const response = await jsonPlaceholder.post(`/posts`, newPost);
+    setPosts([{...newPost, id: response.data}, ...posts]);
+    return response.data;
   };
 
   useEffect( () => {
@@ -36,7 +44,7 @@ const App = () => {
     }
 
     if(postLoaded) { // 로드가 되었을 때에만..
-      const uniqueIds = posts.map((post) => post.userId) // 중복되는 id 를 제거해준다.
+      const uniqueIds = posts.map((post) => post.user_id) // 중복되는 id 를 제거해준다.
                              .filter((id, index, arr) => arr.indexOf(id) === index)
       userFetch(uniqueIds);
     }
@@ -60,9 +68,10 @@ const App = () => {
                 postDelete = {postDelete}
               />} 
           />
-          <Route path="/users" exact render={(props) => <Users {...props} users={users} />}/>
-          <Route path="/posts/:postId" component={Post}/>
-          <Route path="/users/:userId" component={User}/>
+          <Route path="/users" exact render={(props) => <Users {...props} users={users} />} />
+          <Route path="/newpost" exact render={(props) => <Newpost {...props} postNewPost={postNewPost}/>} />
+          <Route path="/posts/:postId" render={(props) => <Post {...props} />} />
+          <Route path="/users/:userId" render={(props) => <User {...props}/>} />
         </Switch>
       </div>
     </BrowserRouter>
