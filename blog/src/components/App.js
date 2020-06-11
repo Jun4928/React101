@@ -9,6 +9,7 @@ import Users from './Users';
 import Post from './Post';
 import User from './User';
 import Newpost from './Newpost';
+import Updatepost from './Updatepost';
 
 const App = () => {
   const [posts, setPosts] = useState([]); 
@@ -26,8 +27,17 @@ const App = () => {
     console.log('new post trigerred');
     const response = await jsonPlaceholder.post(`/posts`, newPost);
     setPosts([{...newPost, id: response.data}, ...posts]);
-    return response.data;
   };
+
+  const postUpdate = async (updatedPost, postId) => {
+    console.log('post update');
+    await jsonPlaceholder.put(`/posts/${postId}`, updatedPost );
+    setPosts(posts.map((post) => {
+      if (post.id === postId) return { ...post, ...updatedPost }; // 원래부분 앞에 두고,, 뒤에 수정된 부분이 override 함. object 수정
+      return post;
+    }));
+    
+  }
 
   useEffect( () => {
     const userFetch = async (uniqueIds) => {
@@ -70,6 +80,7 @@ const App = () => {
           />
           <Route path="/users" exact render={(props) => <Users {...props} users={users} />} />
           <Route path="/newpost" exact render={(props) => <Newpost {...props} postNewPost={postNewPost}/>} />
+          <Route path="/updatepost" exact render={(props) => <Updatepost {...props} postUpdate={postUpdate}/>} />
           <Route path="/posts/:postId" render={(props) => <Post {...props} />} />
           <Route path="/users/:userId" render={(props) => <User {...props}/>} />
         </Switch>

@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import { Button, TextField } from '@material-ui/core';
 
-const Newpost = (props) => {
-  const { postNewPost } = props;
-  const [title, setTitle] = useState('');
-  const [body, setBody] = useState('');
+const Updatepost = (props) => {
+  const { postUpdate } = props;
+  const { post } = props.location.state;
+  const [title, setTitle] = useState(post.title);
+  const [body, setBody] = useState(post.body);
 
   const onFormSubmit = async () => {
-    await postNewPost({ // return: new postId
-      user_id: "5",
+    await postUpdate({ // return: new postId
+      user_id: post.user_id,
       title,
       body
-    });
+    }, post.id);
  
     props.history.push('/');
   }
@@ -21,7 +22,7 @@ const Newpost = (props) => {
         <div style={{margin: "10px"}}>
           <TextField 
             id="standard-basic" 
-            label="제목을 입력하세요"
+            label="글 제목"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
@@ -31,7 +32,7 @@ const Newpost = (props) => {
             id="outlined-multiline-static"
             multiline
             rows={10}
-            label="글쓰기"
+            label="글 수정"
             variant="outlined"
             value={body}
             onChange={(e) => setBody(e.target.value)}
@@ -42,10 +43,10 @@ const Newpost = (props) => {
             variant="outlined" 
             color="primary"
             onClick={onFormSubmit}
-          >Save</Button>
+          >수정하기</Button>
         </div>
     </div>
   );
 }
 
-export default Newpost;
+export default Updatepost;
