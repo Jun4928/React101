@@ -5,7 +5,7 @@ const Users = (props) => {
   const { users } = props;
 
   const renderUsers = users.map((user) => {
-    return <UserCard key={user.id} user={user}/>
+    return <UserCard key={user.id} user={user} users={users} />
   });
 
   return(

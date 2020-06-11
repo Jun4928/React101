@@ -5,8 +5,9 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import { withRouter } from 'react-router-dom';
 
-const AlertDialog = ({postDelete, postId}) => {
+const AlertDialog = ({postDelete, postId, history}) => {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -20,6 +21,7 @@ const AlertDialog = ({postDelete, postId}) => {
   const handleYesClose = () => {
     postDelete(postId);
     setOpen(false);
+    history.push('/');
   };
 
   return (
@@ -52,4 +54,4 @@ const AlertDialog = ({postDelete, postId}) => {
   );
 }
 
-export default AlertDialog;
+export default withRouter(AlertDialog);

@@ -9,7 +9,7 @@ const UserCard = (props) => {
       to={{
         pathname: `/users/${user.id}`,
         state: {
-          user: user
+          user: user,
         }
       }}
     >

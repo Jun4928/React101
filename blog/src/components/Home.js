@@ -3,7 +3,8 @@ import useFetch from './useFetch';
 import PostCard from './PostCard';
 import Spinner from './Spinner';
 
-const Home = ({posts, setPosts, postLoaded, setPostLoaded, users, postDelete}) => {
+const Home = (props) => {
+  const {posts, setPosts, postLoaded, setPostLoaded, users, postDelete} = props;
   const loading = useFetch('/posts', setPosts, postLoaded, setPostLoaded); 
 
   const renderLoading = () => {
@@ -12,7 +13,7 @@ const Home = ({posts, setPosts, postLoaded, setPostLoaded, users, postDelete}) =
   };
 
   const renderPosts = posts.map( (post) => {
-    return <PostCard key={post.id} post={post} users={users} postDelete={postDelete}/>
+    return <PostCard key={post.id} {...props} post={post} users={users} postDelete={postDelete}/>
   });
 
   return (

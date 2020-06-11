@@ -29,8 +29,13 @@ const App = () => {
       return true;
     }));
 
-    setUsers(users.filter((user) => user.id !== deletedUserId))
+    const response = await jsonPlaceholder.get(`/posts`,{
+      params: {
+        user_id: deletedUserId
+      }
+    });
 
+    if (response.data.length === 0) setUsers(users.filter((user) => user.id !== deletedUserId))
   };
 
   const postNewPost = async (newPost) => {
@@ -82,20 +87,28 @@ const App = () => {
         <Switch>
           <Route path="/" exact 
             render={(props) => 
-              <Home {...props} 
-                posts={posts} 
-                setPosts={setPosts}
-                postLoaded={postLoaded}
-                setPostLoaded={setPostLoaded}
-                users = {users}
-                postDelete = {postDelete}
-              />} 
+            <Home {...props} 
+              posts={posts} 
+              setPosts={setPosts}
+              postLoaded={postLoaded}
+              setPostLoaded={setPostLoaded}
+              users = {users}
+              postDelete = {postDelete}
+            />} 
           />
           <Route path="/users" exact render={(props) => <Users {...props} users={users} />} />
           <Route path="/newpost" exact render={(props) => <Newpost {...props} postNewPost={postNewPost}/>} />
           <Route path="/updatepost" exact render={(props) => <Updatepost {...props} postUpdate={postUpdate}/>} />
-          <Route path="/posts/:postId" render={(props) => <Post {...props} />} />
-          <Route path="/users/:userId" render={(props) => <User {...props}/>} />
+          <Route path="/posts/:postId" 
+            render={(props) => 
+            <Post {...props}  
+              posts={posts} 
+              setPosts={setPosts}
+              postLoaded={postLoaded}
+              setPostLoaded={setPostLoaded}
+            />} 
+          />
+          <Route path="/users/:userId" render={(props) => <User {...props} postDelete={postDelete}/>} />
         </Switch>
       </div>
     </BrowserRouter>
