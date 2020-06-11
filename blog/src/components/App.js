@@ -20,13 +20,26 @@ const App = () => {
     console.log('postDelete triggered');
     await jsonPlaceholder.delete(`/posts/${postId}`);
     console.log('Delete postId from the state');
-    setPosts(posts.filter((post) => post.id !== postId));
+    let deletedUserId;
+    setPosts(posts.filter((post) => {
+      if (post.id === postId) {
+        deletedUserId = post.user_id;
+        return false;
+      }
+      return true;
+    }));
+
+    setUsers(users.filter((user) => user.id !== deletedUserId))
+
   };
 
   const postNewPost = async (newPost) => {
     console.log('new post trigerred');
     const response = await jsonPlaceholder.post(`/posts`, newPost);
     setPosts([{...newPost, id: response.data}, ...posts]);
+
+    const userInfo = await jsonPlaceholder.get(`/users/${newPost.user_id}`);
+    if (!users.find((user) => user.id === userInfo.data.id)) setUsers([...users, userInfo.data]);
   };
 
   const postUpdate = async (updatedPost, postId) => {

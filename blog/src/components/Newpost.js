@@ -8,7 +8,7 @@ const Newpost = (props) => {
 
   const onFormSubmit = async () => {
     await postNewPost({ // return: new postId
-      user_id: "5",
+      user_id: Math.floor(Math.random() * 10) + 1,
       title,
       body
     });
