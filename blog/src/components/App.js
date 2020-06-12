@@ -10,11 +10,15 @@ import Post from './Post';
 import User from './User';
 import Newpost from './Newpost';
 import Updatepost from './Updatepost';
+import LogIn from './LogIn';
 
 const App = () => {
   const [posts, setPosts] = useState([]); 
   const [postLoaded, setPostLoaded] = useState(false);
   const [users, setUsers] = useState([]);
+  const [userLogedIn, setUserLogedIn] = useState(false);
+  const [userInfo, setUserInfo] = useState({});
+  const Kakao = window.Kakao;
 
   const postDelete = async (postId) => {
     console.log('postDelete triggered');
@@ -57,7 +61,29 @@ const App = () => {
     
   }
 
-  useEffect( () => {
+  useEffect(() => {
+    Kakao.init('YOUR KEY');
+    if (Kakao.Auth.getAccessToken()) {
+      Kakao.API.request({
+          url: '/v2/user/me',
+          success: (res) => {
+            setUserInfo(res);
+          },
+          fail: (error) => {
+            alert('login success, but failed to request user information: ' + JSON.stringify(error));
+          },
+      });
+
+      setUserLogedIn(true);
+    }
+
+    if (!Kakao.Auth.getAccessToken()) {
+      setUserLogedIn(false);
+    }
+    // eslint-disable-next-line
+  }, []);
+  
+  useEffect(() => {
     const userFetch = async (uniqueIds) => {
       const userInfo = [];
       for (const id of uniqueIds) { // forEach 문은 await를 기다려 주지 않는다. 본래의 기본 for 문을 사용해야 함.
@@ -83,7 +109,7 @@ const App = () => {
   return(
     <BrowserRouter>
       <div className="app">
-        <Navbar />
+        <Navbar userLogedIn={userLogedIn} setUserLogedIn={setUserLogedIn} setUserInfo={setUserInfo}/>
         <Switch>
           <Route path="/" exact 
             render={(props) => 
@@ -94,11 +120,14 @@ const App = () => {
               setPostLoaded={setPostLoaded}
               users = {users}
               postDelete = {postDelete}
+              userLogedIn={userLogedIn}
+              userInfo={userInfo}
             />} 
           />
           <Route path="/users" exact render={(props) => <Users {...props} users={users} />} />
           <Route path="/newpost" exact render={(props) => <Newpost {...props} postNewPost={postNewPost}/>} />
           <Route path="/updatepost" exact render={(props) => <Updatepost {...props} postUpdate={postUpdate}/>} />
+          <Route path="/login" exact render={(props) => <LogIn {...props} /> } />
           <Route path="/posts/:postId" 
             render={(props) => 
             <Post {...props}  
