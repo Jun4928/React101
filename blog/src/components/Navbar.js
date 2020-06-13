@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, withRouter } from 'react-router-dom';
+import jsonPlaceholder from '../apis/jsonPlaceholder';
 // import jsonPlaceholder from '../apis/jsonPlaceholder';
 
 const Navbar = (props) => {
-  const { userLogedIn, setUserLogedIn, setUserInfo } = props;
+  const { userLogedIn, setUserLogedIn, setUserInfo, userInfo } = props;
   const Kakao = window.Kakao;
 
   const onKakaoLogin = async () => {
@@ -40,6 +41,21 @@ const Navbar = (props) => {
       setUserLogedIn(false); // app loged in 상태관리
     })
   };
+
+  const checkUser = async () => {
+    const response = await jsonPlaceholder.get('/oauth', {
+      params: {
+        id: userInfo.id
+      }
+    });
+
+    console.log(response.data);
+  }
+
+  useEffect( () => {
+    if(userInfo) checkUser();
+    console.log(userInfo);
+  }, [userInfo]);
 
   const renderLogin = () => {
     if (!userLogedIn) {

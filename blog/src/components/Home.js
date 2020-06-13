@@ -13,7 +13,7 @@ const Home = (props) => {
   };
 
   const renderUserInfo = () => {
-    if (userLogedIn && userInfo.properties) {
+    if (userLogedIn && userInfo) {
       return <div>Hello {userInfo.properties.nickname}</div>
     }
 

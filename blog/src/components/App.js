@@ -17,7 +17,7 @@ const App = () => {
   const [postLoaded, setPostLoaded] = useState(false);
   const [users, setUsers] = useState([]);
   const [userLogedIn, setUserLogedIn] = useState(false);
-  const [userInfo, setUserInfo] = useState({});
+  const [userInfo, setUserInfo] = useState(null);
   const Kakao = window.Kakao;
 
   const postDelete = async (postId) => {
@@ -109,7 +109,12 @@ const App = () => {
   return(
     <BrowserRouter>
       <div className="app">
-        <Navbar userLogedIn={userLogedIn} setUserLogedIn={setUserLogedIn} setUserInfo={setUserInfo}/>
+        <Navbar 
+          userLogedIn={userLogedIn} 
+          setUserLogedIn={setUserLogedIn} 
+          setUserInfo={setUserInfo}
+          userInfo={userInfo}
+        />
         <Switch>
           <Route path="/" exact 
             render={(props) => 
