@@ -8,6 +8,7 @@ Repository for recording what I have lerned about React
 - fakeinsta: a project in order to practise React, Redux, Redux-Thunk(async api call using Axios), React-Rounter-Dom
 	- later on: OAuth authentication, Redux-Form, ultimately CRUD based React Application
 - blog: a blog service using ReactHooks, supporting REST API asnychronously
+- todo-redux: a simple todo service using ReactHooks, state managed Redux, Redux-Thunk(async api call suing Axios), Social OAuth2.0
 
 ## References
 [Udemy Course](https://www.udemy.com/course/react-redux/)
